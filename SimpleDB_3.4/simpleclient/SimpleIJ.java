@@ -5,10 +5,16 @@ import simpledb.jdbc.network.NetworkDriver;
 
 public class SimpleIJ {
    public static void main(String[] args) {
+
       Scanner sc = new Scanner(System.in);
-      System.out.println("Connect> ");
-      String s = sc.nextLine();
-      Driver d = (s.contains("//")) ? new NetworkDriver() : new EmbeddedDriver();
+      String connectStr = "";
+      if (args.length == 1) {
+         connectStr = args[0];
+      } else {
+         System.out.println("Connect> ");
+         connectStr = sc.nextLine();
+      }
+      Driver d = (connectStr.contains("//")) ? new NetworkDriver() : new EmbeddedDriver();
 
       try (Connection conn = d.connect(s, null);
            Statement stmt = conn.createStatement()) {
