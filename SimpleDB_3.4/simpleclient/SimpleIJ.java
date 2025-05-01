@@ -16,7 +16,7 @@ public class SimpleIJ {
       }
       Driver d = (connectStr.contains("//")) ? new NetworkDriver() : new EmbeddedDriver();
 
-      try (Connection conn = d.connect(s, null);
+      try (Connection conn = d.connect(connectStr, null);
            Statement stmt = conn.createStatement()) {
          System.out.print("\nSQL> ");
          while (sc.hasNextLine()) {
