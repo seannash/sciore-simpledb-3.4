@@ -21,7 +21,7 @@ public class SimpleIJ {
          System.out.print("\nSQL> ");
          while (sc.hasNextLine()) {
             // process one line of input
-            String cmd = sc.nextLine().trim();
+            String cmd = getNextLine(sc);
             if (cmd.startsWith("exit"))
                break;
             else if (cmd.startsWith("select"))
@@ -35,6 +35,30 @@ public class SimpleIJ {
          e.printStackTrace();
       }
       sc.close();
+   }
+
+   public static String getNextLine(Scanner sc) {
+      StringBuffer sb = new StringBuffer();
+
+      String first = sc.nextLine();
+      sb.append(first);
+      first.trim();
+      if (first.startsWith("exit") || first.endsWith(";"))
+         return first;
+      while (sc.hasNextLine()) {
+         String s = sc.nextLine();
+         sb.append(s);
+         sb.append(" ");
+         s.trim();
+         if (s.endsWith(";")) {
+            break;
+         }
+      }
+      var line = sb.toString();
+      line.trim();
+      line = line.substring(0, line.length() - 1);
+      return line;
+
    }
 
    private static void doQuery(Statement stmt, String cmd) {
