@@ -47,6 +47,13 @@ class EmbeddedConnection extends ConnectionAdapter {
    public void commit() throws SQLException {
       currentTx.commit();
       currentTx = db.newTx();
+      int blocksRead =  db.fileMgr().getBlocksRead();
+      int blocksWritten = db.fileMgr().getBlocksWritten();
+      int blocksAppended = db.fileMgr().getBlocksAppended();
+
+      System.out.println("Blocks read: " + blocksRead);
+      System.out.println("Blocks written: " + blocksWritten);
+      System.out.println("Blocks appended: " + blocksAppended);
    }
 
    /**
@@ -55,6 +62,13 @@ class EmbeddedConnection extends ConnectionAdapter {
    public void rollback() throws SQLException {
       currentTx.rollback();
       currentTx = db.newTx();
+      int blocksRead =  db.fileMgr().getBlocksRead();
+      int blocksWritten = db.fileMgr().getBlocksWritten();
+      int blocksAppended = db.fileMgr().getBlocksAppended();
+
+      System.out.println("Blocks read: " + blocksRead);
+      System.out.println("Blocks written: " + blocksWritten);
+      System.out.println("Blocks appended: " + blocksAppended);
    }
 
    /**

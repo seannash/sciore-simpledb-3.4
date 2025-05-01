@@ -9,6 +9,23 @@ public class FileMgr {
    private boolean isNew;
    private Map<String,RandomAccessFile> openFiles = new HashMap<>();
 
+   private int blocksRead = 0;
+   private int blocksWritten = 0;
+   private int blocksAppended = 0;
+
+
+   public int getBlocksRead() {
+      return blocksRead;
+   }
+
+   public int getBlocksWritten() {
+      return blocksWritten;
+   }
+
+   public int getBlocksAppended() {
+      return blocksAppended;
+   }
+
    public FileMgr(File dbDirectory, int blocksize) {
       this.dbDirectory = dbDirectory;
       this.blocksize = blocksize;
@@ -29,6 +46,7 @@ public class FileMgr {
          RandomAccessFile f = getFile(blk.fileName());
          f.seek(blk.number() * blocksize);
          f.getChannel().read(p.contents());
+         blocksRead++;
       }
       catch (IOException e) {
          throw new RuntimeException("cannot read block " + blk);
@@ -40,6 +58,7 @@ public class FileMgr {
          RandomAccessFile f = getFile(blk.fileName());
          f.seek(blk.number() * blocksize);
          f.getChannel().write(p.contents());
+         blocksWritten++;
       }
       catch (IOException e) {
          throw new RuntimeException("cannot write block" + blk);
@@ -54,6 +73,7 @@ public class FileMgr {
          RandomAccessFile f = getFile(blk.fileName());
          f.seek(blk.number() * blocksize);
          f.write(b);
+         blocksAppended++;
       }
       catch (IOException e) {
          throw new RuntimeException("cannot append block" + blk);
