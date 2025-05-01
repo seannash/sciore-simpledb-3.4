@@ -20,5 +20,5 @@ setup:
 	cd bin/client; java network.StudentMajor
 
 client:
-	cd bin/client; java SimpleIJ
+	cd bin/client; rlwrap java SimpleIJ "jdbc:simpledb://localhost"
 
