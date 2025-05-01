@@ -10,10 +10,12 @@ compile_clients: dirs
 	javac -d bin/client simpleclient/network/*
 	javac -d bin/client simpleclient/embedded/*
 
+build: compile_clients compile_server
+
 server: compile_server
 	cd bin/server; java simpledb.server.StartServer
 
-create_data:
+setup:
 	cd bin/client; java network.CreateStudentDB
 	cd bin/client; java network.StudentMajor
 
