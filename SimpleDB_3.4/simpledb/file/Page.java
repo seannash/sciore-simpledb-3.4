@@ -18,22 +18,37 @@ public class Page {
    }
 
    public int getInt(int offset) {
+      if (offset < 0 || offset+4 > bb.capacity()) {
+         throw new IllegalArgumentException("Invalid offset: " + offset);
+      }
       return bb.getInt(offset);
    }
 
    public void setInt(int offset, int n) {
+      if (offset < 0 || offset+4 > bb.capacity()) {
+         throw new IllegalArgumentException("Invalid offset: " + offset+ " " + bb.capacity());
+      }
       bb.putInt(offset, n);
    }
 
    public byte[] getBytes(int offset) {
+      if (offset < 0 || offset+4 > bb.capacity()) {
+         throw new IllegalArgumentException("Invalid offset: " + offset);
+      }
       bb.position(offset);
       int length = bb.getInt();
+      if (offset+4+length > bb.capacity()) {
+         throw new IllegalArgumentException("Invalid offset: " + offset);
+      }
       byte[] b = new byte[length];
       bb.get(b);
       return b;
    }
 
    public void setBytes(int offset, byte[] b) {
+      if (offset < 0 || offset+4+b.length > bb.capacity()) {
+         throw new IllegalArgumentException("Invalid offset: " + offset);
+      }
       bb.position(offset);
       bb.putInt(b.length);
       bb.put(b);
